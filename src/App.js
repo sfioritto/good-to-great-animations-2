@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {TransitionGroup, CSSTransition} from 'react-transition-group';
+import {CSSTransition, TransitionGroup, Transition} from 'react-transition-group';
 
 class Loader extends Component {
 
@@ -36,13 +36,26 @@ class Loader extends Component {
   }
 
   render() {
-    if (this.state.loaded) {
-      return this.loaded();
-    } else {
-      return (
-        <div className="loader">{this.unloaded()}</div>
-      );
-    }
+    return (
+      <Transition
+        in={!this.state.loaded}
+        timeout={300}>
+        {(state) => {
+          if (state === "exiting" ||
+              state === "entered") {
+            return (
+              <div className={"loader unloaded " + (state == 'exiting' ? "loader-exit-active" : "")}>
+                {this.unloaded()}
+              </div>
+            );
+
+          } else {
+            return this.loaded();
+          }
+        }}
+
+      </Transition>
+    );
   }
 }
 
@@ -116,7 +129,7 @@ class App extends Component {
                 />
             );
           }}
-        loaded={(props) => {
+        loaded={(data) => {
           const items = [1, 2, 3, 4, 5, 6].map(key=>{
             return {
               key: key,

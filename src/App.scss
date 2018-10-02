@@ -25,11 +25,23 @@ $transition-fast: 100ms;
 }
 
 .loader {
-  align-items: center;
-  display: flex;
-  height: 100%;
-  justify-content: center;
-  width: 100%;
+
+  opacity: 1;
+  transition: opacity $transition-normal ease-in-out;
+  transition-delay: $transition-fast;
+
+  &.unloaded,
+  &-exit-active {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &-exit-active {
+    opacity: 0;
+  }
 }
 
 .progress-bar-loader {
