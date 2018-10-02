@@ -13,10 +13,11 @@
 .progress-bar-loader {
   background-color: #ea4bfc;
   border-radius: 5px;
-  padding: 0;
   color: white;
   font-size: 1rem;
   height: 2rem;
+  padding: 0;
+  transition: 100ms height ease-in-out;
   width: 9rem; }
   .progress-bar-loader:focus {
     outline: 0; }
@@ -30,3 +31,16 @@
     height: 100%;
     opacity: .3;
     width: 100%; }
+  .progress-bar-loader .overlay {
+    align-items: center;
+    background-color: #ea4bfc;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    transition: background-color 100ms ease-in-out, opacity 100ms ease-in-out;
+    width: 100%;
+    opacity: 1; }
+    .progress-bar-loader .overlay:hover {
+      background-color: #0f0f0f;
+      cursor: pointer;
+      opacity: .4; }
