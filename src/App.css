@@ -2,13 +2,18 @@
   box-sizing: border-box; }
 
 .app-frame {
-  align-items: center;
   border: 1px solid gainsboro;
-  display: flex;
-  justify-content: center;
   margin: 1rem auto;
   height: 800px;
+  overflow: auto;
   width: 14rem; }
+
+.loader {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%; }
 
 .progress-bar-loader {
   background-color: #ea4bfc;
@@ -17,7 +22,7 @@
   font-size: 1rem;
   height: 2rem;
   padding: 0;
-  transition: 100ms height ease-in-out;
+  transition: height 100ms ease-in-out;
   width: 9rem; }
   .progress-bar-loader:focus {
     outline: 0; }
@@ -44,3 +49,25 @@
       background-color: #0f0f0f;
       cursor: pointer;
       opacity: .4; }
+
+.container {
+  padding: 1rem; }
+
+.simple-card {
+  background-color: #4ca5fc;
+  border-radius: 5px;
+  box-shadow: 0 0 4px #0f0f0f;
+  height: 9rem;
+  margin-bottom: 2rem;
+  padding: 1rem; }
+  .simple-card .title {
+    background-color: #93ccfc;
+    border-radius: 10px;
+    height: 1.5rem;
+    width: 66%; }
+  .simple-card .sub-title {
+    background-color: #fafafa;
+    border-radius: 10px;
+    height: 1.5rem;
+    margin-top: 1rem;
+    width: 33%; }
