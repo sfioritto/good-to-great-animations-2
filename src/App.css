@@ -77,3 +77,10 @@
     height: 1.5rem;
     margin-top: 1rem;
     width: 33%; }
+  .simple-card-appear {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 100ms ease-in-out, transform 100ms ease-in-out; }
+  .simple-card-appear-active {
+    opacity: 1;
+    transform: translateY(0); }

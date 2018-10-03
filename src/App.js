@@ -24,17 +24,6 @@ class Loader extends Component {
     }
   }
 
-  unloaded() {
-    return this.props.unloaded({
-      progress: this.state.progress,
-      onClick: this.start.bind(this)
-    });
-  }
-
-  loaded() {
-    return this.props.loaded();
-  }
-
   render() {
     return (
       <Transition
@@ -44,13 +33,16 @@ class Loader extends Component {
           if (state === "exiting" ||
               state === "entered") {
             return (
-              <div className={"loader unloaded " + (state == 'exiting' ? "loader-exit-active" : "")}>
-                {this.unloaded()}
+              <div className={"loader unloaded" + (state == 'exiting' ? " loader-exit-active" : "")}>
+                {this.props.button(
+                  this.state.progress,
+                  this.start.bind(this)
+                )}
               </div>
             );
 
           } else {
-            return this.loaded();
+            return this.props.loaded();
           }
         }}
 
@@ -59,7 +51,7 @@ class Loader extends Component {
   }
 }
 
-function Button(props) {
+function ProgressBarButton(props) {
 
   let innerJSX,
       classNames = "progress-bar-loader";
@@ -90,16 +82,24 @@ function Button(props) {
   );
 }
 
-function Container(props) {
+function Container({items, ...animationProps}) {
+  const delay = 50;
+  const timeout = (animationProps.timeout || 100) + (delay * items.length);
+  let totalDelay = 0;
+
   return (
     <TransitionGroup
       className="container">
-      {props.items.map(({key, child}) => {
+      {items.map(({key, child}) => {
+        totalDelay += 50;
         return (
           <CSSTransition
             key={key}
-            {...props}>
-            {child}
+            {...animationProps}
+            timeout={timeout}>
+            {React.cloneElement(child, {
+              style: {transitionDelay: totalDelay + "ms"}
+            })}
           </CSSTransition>
         );
       })}
@@ -109,7 +109,7 @@ function Container(props) {
 
 function SimpleCard(props) {
   return (
-    <div className="simple-card">
+    <div className="simple-card" {...props}>
       <div className="title"></div>
       <div className="sub-title"></div>
     </div>
@@ -121,11 +121,12 @@ class App extends Component {
     return (
       <div className="app-frame">
         <Loader
-          unloaded={(props) => {
+          button={(progress, onClick) => {
             return (
-              <Button
+              <ProgressBarButton
                 value="Load the App!"
-                {...props}
+                progress={progress}
+                onClick={onClick}
                 />
             );
           }}

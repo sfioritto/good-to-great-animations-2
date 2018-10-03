@@ -118,4 +118,15 @@ $transition-fast: 100ms;
     margin-top: 1rem;
     width: 33%;
   }
+
+  &-appear {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity $transition-fast ease-in-out, transform $transition-fast ease-in-out;
+  }
+
+  &-appear-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
