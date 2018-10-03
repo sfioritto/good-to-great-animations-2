@@ -14,16 +14,20 @@ class TabbedContainer extends Component {
   }
 
   render() {
+
+    const leftSelected = this.state.left ? " selected" : "";
+    const rightSelected = this.state.right ? " selected" : "";
+
     return (
       <div className="tabbed-container">
         <div className="tabs">
-          <div className={"left" + (this.state.left ? " selected" : "")}>
+          <div className={"left" + leftSelected}>
             <div
               className="button"
               onClick={() => this.setState({left: true, right: false})}
               ></div>
           </div>
-          <div className={"right" + (this.state.right ? " selected" : "")}>
+          <div className={"right" + rightSelected}>
             <div
               className="button"
               onClick={() => this.setState({left: false, right: true})}
@@ -31,10 +35,10 @@ class TabbedContainer extends Component {
           </div>
         </div>
         <div className="containers">
-          <div className="left">
+          <div className={"left" + leftSelected}>
             {this.props.children[0]}
           </div>
-          <div className="right">
+          <div className={"right" + rightSelected}>
             {this.props.children[1]}
           </div>
         </div>

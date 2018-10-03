@@ -117,3 +117,13 @@
   .tabbed-container .containers .left,
   .tabbed-container .containers .right {
     width: 14rem; }
+  .tabbed-container .containers .left {
+    transform: translateX(-14rem); }
+    .tabbed-container .containers .left.selected {
+      transform: translateX(0); }
+  .tabbed-container .containers .right {
+    transform: translateX(0); }
+    .tabbed-container .containers .right.selected {
+      transform: translateX(-14rem); }
+  .tabbed-container .containers .left .simple-card {
+    background-color: #93ccfc; }

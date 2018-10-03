@@ -175,5 +175,23 @@ $transition-fast: 100ms;
       width: $example-width;
     }
 
+    .left {
+      transform: translateX(-$example-width);
+      &.selected {
+        transform: translateX(0);
+      }
+    }
+
+    .right {
+      transform: translateX(0);
+      &.selected {
+        transform: translateX(-$example-width);
+      }
+    }
+
+    .left .simple-card {
+      background-color: $lighter-blue;
+    }
+
   }
 }
