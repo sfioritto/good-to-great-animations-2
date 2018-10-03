@@ -132,6 +132,53 @@ $transition-fast: 100ms;
   }
 }
 
+.expanded-card {
+  border: 1px solid $grey;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+
+  .top {
+    background-color: $blue;
+    border-radius: 5px 5px 0 0;
+    height: 4rem;
+  }
+
+  .middle {
+    padding: 1rem;
+
+    .title {
+      background-color: $lighter-blue;
+      border-radius: 10px;
+      height: 1.5rem;
+      width: 66%;
+    }
+
+    .sub-title {
+      background-color: $grey;
+      border-radius: 10px;
+      height: 1.5rem;
+      margin-top: 1rem;
+      width: 50%;
+    }
+  }
+
+  .bottom {
+    display: none;
+    overflow: hidden;
+    padding: 0 1rem;
+
+    &.expanded {
+      display: block;
+    }
+
+    > p {
+      background-color: $blue;
+      border-radius: 10px;
+      height: 1rem;
+    }
+  }
+}
+
 .tabbed-container {
 
   .tabs {

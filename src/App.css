@@ -86,6 +86,38 @@
     opacity: 1;
     transform: translateY(0); }
 
+.expanded-card {
+  border: 1px solid gainsboro;
+  border-radius: 5px;
+  margin-bottom: 1rem; }
+  .expanded-card .top {
+    background-color: #4ca5fc;
+    border-radius: 5px 5px 0 0;
+    height: 4rem; }
+  .expanded-card .middle {
+    padding: 1rem; }
+    .expanded-card .middle .title {
+      background-color: #93ccfc;
+      border-radius: 10px;
+      height: 1.5rem;
+      width: 66%; }
+    .expanded-card .middle .sub-title {
+      background-color: gainsboro;
+      border-radius: 10px;
+      height: 1.5rem;
+      margin-top: 1rem;
+      width: 50%; }
+  .expanded-card .bottom {
+    display: none;
+    overflow: hidden;
+    padding: 0 1rem; }
+    .expanded-card .bottom.expanded {
+      display: block; }
+    .expanded-card .bottom > p {
+      background-color: #4ca5fc;
+      border-radius: 10px;
+      height: 1rem; }
+
 .tabbed-container .tabs {
   display: flex;
   justify-content: space-around;

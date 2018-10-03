@@ -174,6 +174,28 @@ function SimpleCard(props) {
   );
 }
 
+function ExpandedCard(props) {
+  return (
+    <div className="expanded-card">
+      <div
+        className="top"
+        onClick={props.onClick}
+        >
+      </div>
+      <div className="middle">
+        <div className="title"></div>
+        <div className = "sub-title"></div>
+      </div>
+      <div className="bottom">
+        <p></p>
+        <p></p>
+        <p></p>
+        <p></p>
+      </div>
+    </div>
+  );
+}
+
 class App extends Component {
   render() {
     return (
@@ -189,21 +211,30 @@ class App extends Component {
             );
           }}
         loaded={(data) => {
-          const items = [1, 2, 3, 4, 5, 6].map(key=>{
+
+          const simpleCards = [1, 2, 3, 4, 5, 6].map(key=>{
             return {
               key: key,
-              child: (<SimpleCard />)
+              child: <SimpleCard />
             };
           });
+
+          const expandedCards = [1, 2, 3, 4, 5, 6].map(key=>{
+            return {
+              key: key,
+              child: <ExpandedCard />
+            };
+          });
+
           return (
             <TabbedContainer>
               <Container
-                items={items}
+                items={simpleCards}
                 classNames="simple-card"
                 appear
               />
               <Container
-                items={items}
+                items={expandedCards}
                 classNames="simple-card"
                 appear
                 />
