@@ -139,35 +139,52 @@ function ProgressBarButton(props) {
   );
 }
 
-function Container({items, ...animationProps}) {
-  const delay = 30;
-  const timeout = (animationProps.timeout || 200) + (delay * items.length - 1);
-  let totalDelay = 0;
+class Container extends Component {
 
-  return (
-    <TransitionGroup
-      className="container">
-      {items.map(({key, child}) => {
-        const transition = (
-          <CSSTransition
-            key={key}
-            {...animationProps}
-            timeout={timeout}>
-            {React.cloneElement(child, {
-              style: {transitionDelay: totalDelay + "ms"}
-            })}
-          </CSSTransition>
-        );
-        totalDelay += delay;
-        return transition;
-      })}
-    </TransitionGroup>
-  );
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: false
+    };
+  }
+
+  toggleExpand(element) {
+    console.log(element);
+    this.setState({expanded: !this.state.expanded});
+  }
+
+  render() {
+    const {items, ...animationProps} = this.props;
+    const delay = 30;
+    const timeout = (animationProps.timeout || 200) + (delay * items.length - 1);
+    let totalDelay = 0;
+
+    return (
+      <TransitionGroup
+        className={"container" + (this.state.expanded ? " expanded" : "")}>
+        {items.map(({key, child}) => {
+          const transition = (
+            <CSSTransition
+              key={key}
+              {...animationProps}
+              timeout={timeout}>
+              {React.cloneElement(child, {
+                style: {transitionDelay: totalDelay + "ms"},
+                toggleExpand: this.toggleExpand.bind(this)
+              })}
+            </CSSTransition>
+          );
+          totalDelay += delay;
+          return transition;
+        })}
+      </TransitionGroup>
+    );
+  }
 }
 
 function SimpleCard(props) {
   return (
-    <div className="simple-card" {...props}>
+    <div className="simple-card">
       <div className="title"></div>
       <div className="sub-title"></div>
     </div>
@@ -175,11 +192,12 @@ function SimpleCard(props) {
 }
 
 function ExpandedCard(props) {
+  const cardRef = React.createRef();
   return (
-    <div className="expanded-card">
+    <div className="expanded-card" ref={cardRef}>
       <div
         className="top"
-        onClick={props.onClick}
+        onClick={() => props.toggleExpand(cardRef.current)}
         >
       </div>
       <div className="middle">

@@ -93,6 +93,7 @@
   .expanded-card .top {
     background-color: #4ca5fc;
     border-radius: 5px 5px 0 0;
+    cursor: pointer;
     height: 4rem; }
   .expanded-card .middle {
     padding: 1rem; }
@@ -182,5 +183,3 @@
     transform: translateX(0); }
     .tabbed-container .containers .right.selected {
       transform: translateX(-14rem); }
-  .tabbed-container .containers .left .simple-card {
-    background-color: #93ccfc; }

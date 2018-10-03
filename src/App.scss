@@ -140,6 +140,7 @@ $transition-fast: 100ms;
   .top {
     background-color: $blue;
     border-radius: 5px 5px 0 0;
+    cursor: pointer;
     height: 4rem;
   }
 
@@ -285,10 +286,5 @@ $transition-fast: 100ms;
         transform: translateX(-$example-width);
       }
     }
-
-    .left .simple-card {
-      background-color: $lighter-blue;
-    }
-
   }
 }
