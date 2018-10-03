@@ -150,7 +150,6 @@ class Container extends Component {
   }
 
   toggleExpand(element) {
-    console.log(element);
     this.setState({expanded: !this.state.expanded});
   }
 
@@ -197,35 +196,71 @@ class ExpandedCard extends Component {
   constructor(props) {
     super(props);
     this.cardRef = React.createRef();
+    this.bottomRef = React.createRef();
+    this.topRef = React.createRef();
     this.state = {
       expanded: false,
-      initialHeight: 0
+      initialHeight: 0,
+      mounted: false
     };
   }
 
   componentDidMount() {
     this.setState({
-      initialHeight: this.cardRef.current.offsetHeight
+      initialHeight: this.cardRef.current.offsetHeight,
+      topHeight: this.topRef.current.offsetHeight,
+      mounted: true
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
+
+    const cardElem = this.cardRef.current;
+    const bottomElem = this.bottomRef.current;
+    const topElem = this.topRef.current;
+
+    if (prevState.mounted !== this.state.mounted) {
+    }
+
     if (prevState.expanded !== this.state.expanded) {
-      const cardElem = this.cardRef.current;
+
       if (this.state.expanded) {
         anime({
           targets: cardElem,
-          height: [this.state.initialHeight, cardElem.scrollHeight],
-          duration: 200,
-          easing: 'easeInOutQuart'
+          height: [this.state.initialHeight, cardElem.scrollHeight + this.state.topHeight],
+          duration: 800,
+          easing: 'easeInOutQuart',
+        });
+        anime({
+          targets: bottomElem,
+          opacity: [0, 1],
+          duration: 800,
+          easing: 'easeInOutQuart',
+        });
+        anime({
+          targets: topElem,
+          height: this.state.topHeight * 2,
+          duration: 800,
+          easing: 'easeInOutQuart',
         });
       } else {
-        // animate the other way
+         anime({
+           targets: cardElem,
+           height: [this.state.initialHeight],
+           duration: 800,
+           easing: 'easeInOutQuart',
+         });
         anime({
-          targets: cardElem,
-          height: [cardElem.scrollHeight, this.state.initialHeight],
-          duration: 200,
-          easing: 'easeInOutQuart'
+          targets: bottomElem,
+          opacity: 0,
+          duration: 800,
+          easing: 'easeInOutQuart',
+        });
+        anime({
+          targets: topElem,
+          height: this.state.topHeight,
+          duration: 800,
+          easing: 'easeInOutQuart',
         });
       }
     }
@@ -241,19 +276,20 @@ class ExpandedCard extends Component {
   render() {
     return (
       <div
-        className={"expanded-card" + (this.state.expanded ? " expanded" : "")}
+        className={"expanded-card" + (this.state.mounted ? " mounted" : "")}
         ref={this.cardRef}
         style={this.state.initialHeight ? {height: this.state.initialHeight} : {}}>
         <div
           className="top"
           onClick={this.toggleExpand.bind(this)}
+          ref={this.topRef}
           >
         </div>
         <div className="middle">
           <div className="title"></div>
           <div className = "sub-title"></div>
         </div>
-        <div className="bottom">
+        <div className="bottom" ref={this.bottomRef}>
           <p></p>
           <p></p>
           <p></p>
@@ -297,15 +333,15 @@ class App extends Component {
           return (
             <TabbedContainer>
               <Container
-                items={simpleCards}
-                classNames="simple-card"
-                appear
-              />
-              <Container
                 items={expandedCards}
                 classNames="simple-card"
                 appear
                 />
+              <Container
+                items={simpleCards}
+                classNames="simple-card"
+                appear
+              />
             </TabbedContainer>
           );
         }}/>

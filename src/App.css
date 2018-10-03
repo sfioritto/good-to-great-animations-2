@@ -116,7 +116,7 @@
       background-color: #4ca5fc;
       border-radius: 10px;
       height: 1rem; }
-  .expanded-card.expanded .bottom {
+  .expanded-card.mounted .bottom {
     display: block; }
 
 .tabbed-container .tabs {

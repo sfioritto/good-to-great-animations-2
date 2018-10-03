@@ -175,7 +175,7 @@ $transition-fast: 100ms;
     }
   }
 
-  &.expanded {
+  &.mounted {
     .bottom {
       display: block;
     }
