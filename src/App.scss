@@ -145,12 +145,54 @@ $transition-fast: 100ms;
       position: relative;
       width: 50%;
 
-      &.selected::after {
+      &.selected::after,
+      &.left-exit::after,
+      &.right-exit::after {
         border-bottom: 2px solid $blue;
         bottom: 0;
         content: "";
         position: absolute;
         width: 100%;
+      }
+    }
+
+    $distance: ($example-width / 2) - 1rem;
+    .left.left {
+      &-exit::after {
+        transform: translateX(0);
+        transition: transform $transition-normal ease-in-out;
+      }
+
+      &-exit-active::after {
+        transform: translateX($distance);
+      }
+
+      &-exit-done::after {
+        display: none;
+      }
+
+      &-enter::after {
+        display: none;
+      }
+    }
+
+    .right.right {
+
+      &-exit::after {
+        transform: translateX(0);
+        transition: transform $transition-normal ease-in-out;
+      }
+
+      &-exit-active::after {
+        transform: translateX(-$distance)
+      }
+
+      &-exit-done::after {
+        display: none;
+      }
+
+      &-enter::after {
+        display: none;
       }
     }
 

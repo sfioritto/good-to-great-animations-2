@@ -23,8 +23,9 @@ class TabbedContainer extends Component {
         <div className="tabs">
           <CSSTransition
             in={this.state.left}
-            timeout={100}
+            timeout={200}
             classNames="left"
+            appear
             >
             <div className={"left" + leftSelected}>
               <div
@@ -35,7 +36,7 @@ class TabbedContainer extends Component {
           </CSSTransition>
           <CSSTransition
             in={this.state.right}
-            timeout={100}
+            timeout={200}
             classNames="right"
             >
             <div className={"right" + rightSelected}>

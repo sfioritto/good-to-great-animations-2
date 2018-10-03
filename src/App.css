@@ -95,13 +95,33 @@
     padding: 1rem 0;
     position: relative;
     width: 50%; }
-    .tabbed-container .tabs .left.selected::after,
-    .tabbed-container .tabs .right.selected::after {
+    .tabbed-container .tabs .left.selected::after, .tabbed-container .tabs .left.left-exit::after, .tabbed-container .tabs .left.right-exit::after,
+    .tabbed-container .tabs .right.selected::after,
+    .tabbed-container .tabs .right.left-exit::after,
+    .tabbed-container .tabs .right.right-exit::after {
       border-bottom: 2px solid #4ca5fc;
       bottom: 0;
       content: "";
       position: absolute;
       width: 100%; }
+  .tabbed-container .tabs .left.left-exit::after {
+    transform: translateX(0);
+    transition: transform 200ms ease-in-out; }
+  .tabbed-container .tabs .left.left-exit-active::after {
+    transform: translateX(6rem); }
+  .tabbed-container .tabs .left.left-exit-done::after {
+    display: none; }
+  .tabbed-container .tabs .left.left-enter::after {
+    display: none; }
+  .tabbed-container .tabs .right.right-exit::after {
+    transform: translateX(0);
+    transition: transform 200ms ease-in-out; }
+  .tabbed-container .tabs .right.right-exit-active::after {
+    transform: translateX(-6rem); }
+  .tabbed-container .tabs .right.right-exit-done::after {
+    display: none; }
+  .tabbed-container .tabs .right.right-enter::after {
+    display: none; }
   .tabbed-container .tabs .button {
     background-color: #4ca5fc;
     border-radius: 5px;
