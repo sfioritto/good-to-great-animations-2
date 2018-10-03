@@ -83,16 +83,15 @@ function ProgressBarButton(props) {
 }
 
 function Container({items, ...animationProps}) {
-  const delay = 50;
-  const timeout = (animationProps.timeout || 100) + (delay * items.length);
+  const delay = 30;
+  const timeout = (animationProps.timeout || 200) + (delay * items.length - 1);
   let totalDelay = 0;
 
   return (
     <TransitionGroup
       className="container">
       {items.map(({key, child}) => {
-        totalDelay += 50;
-        return (
+        const transition = (
           <CSSTransition
             key={key}
             {...animationProps}
@@ -102,6 +101,8 @@ function Container({items, ...animationProps}) {
             })}
           </CSSTransition>
         );
+        totalDelay += delay;
+        return transition;
       })}
     </TransitionGroup>
   );
@@ -140,7 +141,6 @@ class App extends Component {
           return (
             <Container
               items={items}
-              timeout={100}
               classNames="simple-card"
               appear
               />

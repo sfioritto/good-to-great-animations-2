@@ -101,7 +101,7 @@ $transition-fast: 100ms;
   border-radius: 5px;
   box-shadow: 0 0 4px $black;
   height: 9rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 1rem;
 
   .title {
@@ -121,8 +121,9 @@ $transition-fast: 100ms;
 
   &-appear {
     opacity: 0;
-    transform: translateY(100px);
-    transition: opacity $transition-fast ease-in-out, transform $transition-fast ease-in-out;
+    overflow: hidden;
+    transform: translateY(30px);
+    transition: opacity $transition-normal ease-in, transform $transition-normal ease-in,
   }
 
   &-appear-active {

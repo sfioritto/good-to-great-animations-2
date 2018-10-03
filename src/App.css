@@ -64,7 +64,7 @@
   border-radius: 5px;
   box-shadow: 0 0 4px #0f0f0f;
   height: 9rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 1rem; }
   .simple-card .title {
     background-color: #93ccfc;
@@ -79,8 +79,9 @@
     width: 33%; }
   .simple-card-appear {
     opacity: 0;
-    transform: translateY(100px);
-    transition: opacity 100ms ease-in-out, transform 100ms ease-in-out; }
+    overflow: hidden;
+    transform: translateY(30px);
+    transition: opacity 200ms ease-in, transform 200ms ease-in; }
   .simple-card-appear-active {
     opacity: 1;
     transform: translateY(0); }
