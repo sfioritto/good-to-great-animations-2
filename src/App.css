@@ -123,13 +123,17 @@
   .tabbed-container .tabs .right.right-enter::after {
     display: none; }
   .tabbed-container .tabs .button {
-    background-color: #4ca5fc;
+    background-color: gainsboro;
     border-radius: 5px;
     height: 2rem;
     margin: 0 auto;
+    transition: background-color 200ms ease-in-out;
     width: 80%; }
     .tabbed-container .tabs .button:hover {
+      background-color: #93ccfc;
       cursor: pointer; }
+  .tabbed-container .tabs .selected .button {
+    background-color: #4ca5fc; }
 
 .tabbed-container .containers {
   display: flex;

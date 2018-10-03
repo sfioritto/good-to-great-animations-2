@@ -197,15 +197,21 @@ $transition-fast: 100ms;
     }
 
     .button {
-      background-color: $blue;
+      background-color: $grey;
       border-radius: 5px;
       height: 2rem;
       margin: 0 auto;
+      transition: background-color $transition-normal ease-in-out;
       width: 80%;
 
       &:hover {
+        background-color: $lighter-blue;
         cursor: pointer;
       }
+    }
+
+    .selected .button {
+      background-color: $blue;
     }
   }
 
