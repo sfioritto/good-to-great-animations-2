@@ -131,3 +131,49 @@ $transition-fast: 100ms;
     transform: translateY(0);
   }
 }
+
+.tabbed-container {
+
+  .tabs {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 1rem;
+
+    .left,
+    .right {
+      padding: 1rem 0;
+      position: relative;
+      width: 50%;
+
+      &.selected::after {
+        border-bottom: 2px solid $blue;
+        bottom: 0;
+        content: "";
+        position: absolute;
+        width: 100%;
+      }
+    }
+
+    .button {
+      background-color: $blue;
+      border-radius: 5px;
+      height: 2rem;
+      margin: 0 auto;
+      width: 80%;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .containers {
+    display: flex;
+    width: $example-width * 2;
+    .left,
+    .right {
+      width: $example-width;
+    }
+
+  }
+}

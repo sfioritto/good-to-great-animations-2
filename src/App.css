@@ -85,3 +85,35 @@
   .simple-card-appear-active {
     opacity: 1;
     transform: translateY(0); }
+
+.tabbed-container .tabs {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 1rem; }
+  .tabbed-container .tabs .left,
+  .tabbed-container .tabs .right {
+    padding: 1rem 0;
+    position: relative;
+    width: 50%; }
+    .tabbed-container .tabs .left.selected::after,
+    .tabbed-container .tabs .right.selected::after {
+      border-bottom: 2px solid #4ca5fc;
+      bottom: 0;
+      content: "";
+      position: absolute;
+      width: 100%; }
+  .tabbed-container .tabs .button {
+    background-color: #4ca5fc;
+    border-radius: 5px;
+    height: 2rem;
+    margin: 0 auto;
+    width: 80%; }
+    .tabbed-container .tabs .button:hover {
+      cursor: pointer; }
+
+.tabbed-container .containers {
+  display: flex;
+  width: 28rem; }
+  .tabbed-container .containers .left,
+  .tabbed-container .containers .right {
+    width: 14rem; }

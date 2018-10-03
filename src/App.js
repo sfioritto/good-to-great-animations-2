@@ -3,13 +3,53 @@ import logo from './logo.svg';
 import './App.css';
 import {CSSTransition, TransitionGroup, Transition} from 'react-transition-group';
 
+class TabbedContainer extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      left: true,
+      right: false
+    };
+  }
+
+  render() {
+    return (
+      <div className="tabbed-container">
+        <div className="tabs">
+          <div className={"left" + (this.state.left ? " selected" : "")}>
+            <div
+              className="button"
+              onClick={() => this.setState({left: true, right: false})}
+              ></div>
+          </div>
+          <div className={"right" + (this.state.right ? " selected" : "")}>
+            <div
+              className="button"
+              onClick={() => this.setState({left: false, right: true})}
+              ></div>
+          </div>
+        </div>
+        <div className="containers">
+          <div className="left">
+            {this.props.children[0]}
+          </div>
+          <div className="right">
+            {this.props.children[1]}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
 class Loader extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       progress: 0,
-      loaded: false
+      loaded: true
     };
   }
 
@@ -139,11 +179,18 @@ class App extends Component {
             };
           });
           return (
-            <Container
-              items={items}
-              classNames="simple-card"
-              appear
+            <TabbedContainer>
+              <Container
+                items={items}
+                classNames="simple-card"
+                appear
               />
+              <Container
+                items={items}
+                classNames="simple-card"
+                appear
+                />
+            </TabbedContainer>
           );
         }}/>
       </div>
