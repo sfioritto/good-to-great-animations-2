@@ -191,27 +191,34 @@ function SimpleCard(props) {
   );
 }
 
-function ExpandedCard(props) {
-  const cardRef = React.createRef();
-  return (
-    <div className="expanded-card" ref={cardRef}>
-      <div
-        className="top"
-        onClick={() => props.toggleExpand(cardRef.current)}
-        >
+class ExpandedCard extends Component {
+
+  constructor(props) {
+    super(props);
+    this.cardRef = React.createRef();
+  }
+
+  render() {
+    return (
+      <div className="expanded-card" ref={this.cardRef}>
+        <div
+          className="top"
+          onClick={() => this.props.toggleExpand(this.cardRef.current)}
+          >
+        </div>
+        <div className="middle">
+          <div className="title"></div>
+          <div className = "sub-title"></div>
+        </div>
+        <div className="bottom">
+          <p></p>
+          <p></p>
+          <p></p>
+          <p></p>
+        </div>
       </div>
-      <div className="middle">
-        <div className="title"></div>
-        <div className = "sub-title"></div>
-      </div>
-      <div className="bottom">
-        <p></p>
-        <p></p>
-        <p></p>
-        <p></p>
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 class App extends Component {
