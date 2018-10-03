@@ -170,8 +170,10 @@ $transition-fast: 100ms;
   .containers {
     display: flex;
     width: $example-width * 2;
+
     .left,
     .right {
+      transition: transform 200ms ease-in-out;
       width: $example-width;
     }
 

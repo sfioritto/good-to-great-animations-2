@@ -116,6 +116,7 @@
   width: 28rem; }
   .tabbed-container .containers .left,
   .tabbed-container .containers .right {
+    transition: transform 200ms ease-in-out;
     width: 14rem; }
   .tabbed-container .containers .left {
     transform: translateX(-14rem); }
