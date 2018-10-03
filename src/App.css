@@ -89,7 +89,8 @@
 .expanded-card {
   border: 1px solid gainsboro;
   border-radius: 5px;
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+  overflow: hidden; }
   .expanded-card .top {
     background-color: #4ca5fc;
     border-radius: 5px 5px 0 0;
@@ -110,14 +111,13 @@
       width: 50%; }
   .expanded-card .bottom {
     display: none;
-    overflow: hidden;
     padding: 0 1rem; }
-    .expanded-card .bottom.expanded {
-      display: block; }
     .expanded-card .bottom > p {
       background-color: #4ca5fc;
       border-radius: 10px;
       height: 1rem; }
+  .expanded-card.expanded .bottom {
+    display: block; }
 
 .tabbed-container .tabs {
   display: flex;

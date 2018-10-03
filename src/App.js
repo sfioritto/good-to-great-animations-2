@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {CSSTransition, TransitionGroup, Transition} from 'react-transition-group';
+import anime from 'animejs';
 
 class TabbedContainer extends Component {
 
@@ -196,14 +197,56 @@ class ExpandedCard extends Component {
   constructor(props) {
     super(props);
     this.cardRef = React.createRef();
+    this.state = {
+      expanded: false,
+      initialHeight: 0
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      initialHeight: this.cardRef.current.offsetHeight
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.expanded !== this.state.expanded) {
+      const cardElem = this.cardRef.current;
+      if (this.state.expanded) {
+        anime({
+          targets: cardElem,
+          height: [this.state.initialHeight, cardElem.scrollHeight],
+          duration: 200,
+          easing: 'easeInOutQuart'
+        });
+      } else {
+        // animate the other way
+        anime({
+          targets: cardElem,
+          height: [cardElem.scrollHeight, this.state.initialHeight],
+          duration: 200,
+          easing: 'easeInOutQuart'
+        });
+      }
+    }
+  }
+
+  toggleExpand() {
+    this.props.toggleExpand(this.cardRef.current);
+    this.setState({
+      expanded: !this.state.expanded
+    });
   }
 
   render() {
     return (
-      <div className="expanded-card" ref={this.cardRef}>
+      <div
+        className={"expanded-card" + (this.state.expanded ? " expanded" : "")}
+        ref={this.cardRef}
+        style={this.state.initialHeight ? {height: this.state.initialHeight} : {}}>
         <div
           className="top"
-          onClick={() => this.props.toggleExpand(this.cardRef.current)}
+          onClick={this.toggleExpand.bind(this)}
           >
         </div>
         <div className="middle">

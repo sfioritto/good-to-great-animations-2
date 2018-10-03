@@ -136,6 +136,7 @@ $transition-fast: 100ms;
   border: 1px solid $grey;
   border-radius: 5px;
   margin-bottom: 1rem;
+  overflow: hidden;
 
   .top {
     background-color: $blue;
@@ -165,17 +166,18 @@ $transition-fast: 100ms;
 
   .bottom {
     display: none;
-    overflow: hidden;
     padding: 0 1rem;
-
-    &.expanded {
-      display: block;
-    }
 
     > p {
       background-color: $blue;
       border-radius: 10px;
       height: 1rem;
+    }
+  }
+
+  &.expanded {
+    .bottom {
+      display: block;
     }
   }
 }
