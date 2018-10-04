@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {CSSTransition, TransitionGroup, Transition} from 'react-transition-group';
 import anime from 'animejs';
@@ -91,7 +90,7 @@ class Loader extends Component {
           if (state === "exiting" ||
               state === "entered") {
             return (
-              <div className={"loader unloaded" + (state == 'exiting' ? " loader-exit-active" : "")}>
+              <div className={"loader unloaded" + (state === 'exiting' ? " loader-exit-active" : "")}>
                 {this.props.button(
                   this.state.progress,
                   this.start.bind(this)
