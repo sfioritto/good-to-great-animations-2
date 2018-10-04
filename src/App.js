@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {CSSTransition, TransitionGroup, Transition} from 'react-transition-group';
 import anime from 'animejs';
@@ -12,6 +11,17 @@ class TabbedContainer extends Component {
       left: true,
       right: false
     };
+
+    this.onSelectLeft = this.onSelectLeft.bind(this);
+    this.onSelectRight = this.onSelectRight.bind(this);
+  }
+
+  onSelectLeft() {
+    this.setState({left: true, right: false});
+  }
+
+  onSelectRight() {
+    this.setState({left: false, right: true});
   }
 
   render() {
@@ -31,7 +41,7 @@ class TabbedContainer extends Component {
             <div className={"left" + leftSelected}>
               <div
                 className="button"
-                onClick={() => this.setState({left: true, right: false})}
+                onClick={this.onSelectLeft}
                 ></div>
             </div>
           </CSSTransition>
@@ -43,7 +53,7 @@ class TabbedContainer extends Component {
             <div className={"right" + rightSelected}>
               <div
                 className="button"
-                onClick={() => this.setState({left: false, right: true})}
+                onClick={this.onSelectRight}
                 ></div>
             </div>
           </CSSTransition>
@@ -69,14 +79,16 @@ class Loader extends Component {
       progress: 0,
       loaded: true
     };
+
+    this.start = this.start.bind(this);
   }
 
   start() {
     if (this.state.progress < 100) {
-      this.setState({
-        progress: this.state.progress + 1
-      });
-      setTimeout(this.start.bind(this), 10);
+      this.setState(state => ({
+        progress: state.progress + 1
+      }));
+      setTimeout(this.start, 10);
     } else {
       this.setState({loaded: true});
     }
@@ -91,10 +103,10 @@ class Loader extends Component {
           if (state === "exiting" ||
               state === "entered") {
             return (
-              <div className={"loader unloaded" + (state == 'exiting' ? " loader-exit-active" : "")}>
+              <div className={"loader unloaded" + (state === 'exiting' ? " loader-exit-active" : "")}>
                 {this.props.button(
                   this.state.progress,
-                  this.start.bind(this)
+                  this.start
                 )}
               </div>
             );
@@ -111,17 +123,17 @@ class Loader extends Component {
 
 function ProgressBarButton(props) {
 
-  let innerJSX,
+  let buttonContent,
       classNames = "progress-bar-loader";
 
   if (props.progress === 0) {
-    innerJSX = <span className="overlay">{props.value}</span>;
+    buttonContent = <span className="overlay">{props.value}</span>;
   } else if (props.progress === 100) {
     classNames += " loaded";
-    innerJSX = "Success!";
+    buttonContent = "Success!";
   } else {
     classNames += " loading";
-    innerJSX = (
+    buttonContent = (
       <span
         className="progress-bar"
         style = {{width: props.progress + "%"}}
@@ -135,7 +147,7 @@ function ProgressBarButton(props) {
       className={classNames}
       onClick={props.onClick}
       >
-      {innerJSX}
+      {buttonContent}
     </button>
   );
 }
