@@ -16,6 +16,10 @@ class TabbedContainer extends Component {
     this.onSelectRight = this.onSelectRight.bind(this);
   }
 
+  toggleExpand(element) {
+    console.log(element);
+  }
+
   onSelectLeft() {
     this.setState(state => {
       return {
@@ -38,6 +42,7 @@ class TabbedContainer extends Component {
 
     const leftSelected = this.state.left ? " selected" : "";
     const rightSelected = this.state.right ? " selected" : "";
+    const GenericContainer = this.props.container;
 
     return (
       <div className="tabbed-container">
@@ -70,10 +75,18 @@ class TabbedContainer extends Component {
         </div>
         <div className="containers">
           <div className={"left" + leftSelected}>
-            {this.props.children[0]}
+            <GenericContainer>
+              {React.Children.map(this.props.left, child => {
+                return React.cloneElement(child, {
+                  toggleExpand: this.toggleExpand.bind(this)
+                });
+              })}
+            </GenericContainer>
           </div>
           <div className={"right" + rightSelected}>
-            {this.props.children[1]}
+            <GenericContainer>
+              {this.props.right}
+            </GenericContainer>
           </div>
         </div>
       </div>
@@ -87,7 +100,7 @@ class Loader extends Component {
     super(props);
     this.state = {
       progress: 0,
-      loaded: false
+      loaded: true
     };
 
     this.start = this.start.bind(this);
@@ -169,21 +182,14 @@ class Container extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false,
       loadAnimationFinished: false
     };
     this.delay = 50;
   }
 
-  toggleExpand(element) {
-    this.setState(state => {
-      return {expanded: !state.expanded};
-    });
-  }
-
   getTimeout() {
-    const {items, timeout} = this.props;
-    return (timeout || 200) + (this.delay * items.length - 1);
+    const {children, timeout} = this.props;
+    return (timeout || 200) + (this.delay * children.length - 1);
   }
 
   componentDidMount() {
@@ -195,22 +201,20 @@ class Container extends Component {
   }
 
   render() {
-    const {items, ...animationProps} = this.props;
+    const {children, ...animationProps} = this.props;
     const timeout = this.getTimeout();
     let totalDelay = 0;
 
     return (
       <TransitionGroup
         className={"container" + (this.state.expanded ? " expanded" : "")}>
-        {items.map(({key, child}) => {
+        {React.Children.map(children, child => {
           const transition = (
             <CSSTransition
-              key={key}
               {...animationProps}
               timeout={timeout}>
               {React.cloneElement(child, {
                 style: this.state.loadAnimationFinished ? {} : {transitionDelay: totalDelay + "ms"},
-                toggleExpand: this.toggleExpand.bind(this)
               })}
             </CSSTransition>
           );
@@ -304,7 +308,9 @@ class ExpandedCard extends Component {
   }
 
   toggleExpand() {
-    this.props.toggleExpand(this.cardRef.current);
+    if (this.props.toggleExpand) {
+      this.props.toggleExpand(this.cardRef.current);
+    }
     this.setState(state => {
       return {
         expanded: !state.expanded
@@ -344,6 +350,7 @@ class ExpandedCard extends Component {
 }
 
 class App extends Component {
+
   render() {
     return (
       <div className="app-frame">
@@ -360,32 +367,19 @@ class App extends Component {
         loaded={(data) => {
 
           const simpleCards = [1, 2, 3, 4, 5, 6].map(key=>{
-            return {
-              key: key,
-              child: <SimpleCard />
-            };
+            return <SimpleCard key={key}/>;
           });
 
           const expandedCards = [1, 2, 3, 4, 5, 6].map(key=>{
-            return {
-              key: key,
-              child: <ExpandedCard />
-            };
+            return <ExpandedCard key={key} />;
           });
 
           return (
-            <TabbedContainer>
-              <Container
-                items={simpleCards}
-                classNames="container-card"
-                appear
-                />
-              <Container
-                items={expandedCards}
-                classNames="container-card"
-                appear
+            <TabbedContainer
+              left={expandedCards}
+              right={simpleCards}
+              container={Container}
               />
-            </TabbedContainer>
           );
         }}/>
       </div>
