@@ -79,14 +79,16 @@ class Loader extends Component {
       progress: 0,
       loaded: true
     };
+
+    this.start = this.start.bind(this);
   }
 
   start() {
     if (this.state.progress < 100) {
-      this.setState({
-        progress: this.state.progress + 1
-      });
-      setTimeout(this.start.bind(this), 10);
+      this.setState(state => ({
+        progress: state.progress + 1
+      }));
+      setTimeout(this.start, 10);
     } else {
       this.setState({loaded: true});
     }
@@ -104,7 +106,7 @@ class Loader extends Component {
               <div className={"loader unloaded" + (state === 'exiting' ? " loader-exit-active" : "")}>
                 {this.props.button(
                   this.state.progress,
-                  this.start.bind(this)
+                  this.start
                 )}
               </div>
             );
