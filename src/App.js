@@ -123,17 +123,17 @@ class Loader extends Component {
 
 function ProgressBarButton(props) {
 
-  let innerJSX,
+  let buttonContent,
       classNames = "progress-bar-loader";
 
   if (props.progress === 0) {
-    innerJSX = <span className="overlay">{props.value}</span>;
+    buttonContent = <span className="overlay">{props.value}</span>;
   } else if (props.progress === 100) {
     classNames += " loaded";
-    innerJSX = "Success!";
+    buttonContent = "Success!";
   } else {
     classNames += " loading";
-    innerJSX = (
+    buttonContent = (
       <span
         className="progress-bar"
         style = {{width: props.progress + "%"}}
@@ -147,7 +147,7 @@ function ProgressBarButton(props) {
       className={classNames}
       onClick={props.onClick}
       >
-      {innerJSX}
+      {buttonContent}
     </button>
   );
 }
