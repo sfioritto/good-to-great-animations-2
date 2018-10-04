@@ -11,6 +11,17 @@ class TabbedContainer extends Component {
       left: true,
       right: false
     };
+
+    this.onSelectLeft = this.onSelectLeft.bind(this);
+    this.onSelectRight = this.onSelectRight.bind(this);
+  }
+
+  onSelectLeft() {
+    this.setState({left: true, right: false});
+  }
+
+  onSelectRight() {
+    this.setState({left: false, right: true});
   }
 
   render() {
@@ -30,7 +41,7 @@ class TabbedContainer extends Component {
             <div className={"left" + leftSelected}>
               <div
                 className="button"
-                onClick={() => this.setState({left: true, right: false})}
+                onClick={this.onSelectLeft}
                 ></div>
             </div>
           </CSSTransition>
@@ -42,7 +53,7 @@ class TabbedContainer extends Component {
             <div className={"right" + rightSelected}>
               <div
                 className="button"
-                onClick={() => this.setState({left: false, right: true})}
+                onClick={this.onSelectRight}
                 ></div>
             </div>
           </CSSTransition>
