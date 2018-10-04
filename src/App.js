@@ -77,7 +77,7 @@ class Loader extends Component {
     super(props);
     this.state = {
       progress: 0,
-      loaded: true
+      loaded: false
     };
 
     this.start = this.start.bind(this);
@@ -157,7 +157,8 @@ class Container extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false
+      expanded: false,
+      loadAnimationFinished: false
     };
   }
 
@@ -167,9 +168,13 @@ class Container extends Component {
 
   render() {
     const {items, ...animationProps} = this.props;
-    const delay = 30;
+    const delay = 50;
     const timeout = (animationProps.timeout || 200) + (delay * items.length - 1);
     let totalDelay = 0;
+
+    setTimeout(() => {
+      this.setState({loadAnimationFinished: true});
+    }, timeout);
 
     return (
       <TransitionGroup
@@ -181,7 +186,7 @@ class Container extends Component {
               {...animationProps}
               timeout={timeout}>
               {React.cloneElement(child, {
-                style: {transitionDelay: totalDelay + "ms"},
+                style: this.state.loadAnimationFinished ? {} : {transitionDelay: totalDelay + "ms"},
                 toggleExpand: this.toggleExpand.bind(this)
               })}
             </CSSTransition>
@@ -196,7 +201,7 @@ class Container extends Component {
 
 function SimpleCard(props) {
   return (
-    <div className="simple-card">
+    <div className="simple-card" style={props.style}>
       <div className="title"></div>
       <div className="sub-title"></div>
     </div>
@@ -230,10 +235,6 @@ class ExpandedCard extends Component {
     const cardElem = this.cardRef.current;
     const bottomElem = this.bottomRef.current;
     const topElem = this.topRef.current;
-
-    if (prevState.mounted !== this.state.mounted) {
-    }
-
     if (prevState.expanded !== this.state.expanded) {
 
       if (this.state.expanded) {
@@ -286,11 +287,15 @@ class ExpandedCard extends Component {
   }
 
   render() {
+    const style = {
+      height: this.state.initialHeight || "",
+      transitionDelay: this.props.style.transitionDelay
+    };
     return (
       <div
         className={"expanded-card" + (this.state.mounted ? " mounted" : "")}
         ref={this.cardRef}
-        style={this.state.initialHeight ? {height: this.state.initialHeight} : {}}>
+        style={style}>
         <div
           className="top"
           onClick={this.toggleExpand.bind(this)}
@@ -345,13 +350,13 @@ class App extends Component {
           return (
             <TabbedContainer>
               <Container
-                items={expandedCards}
-                classNames="simple-card"
+                items={simpleCards}
+                classNames="container-card"
                 appear
                 />
               <Container
-                items={simpleCards}
-                classNames="simple-card"
+                items={expandedCards}
+                classNames="container-card"
                 appear
               />
             </TabbedContainer>

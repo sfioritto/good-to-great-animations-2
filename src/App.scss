@@ -118,7 +118,9 @@ $transition-fast: 100ms;
     margin-top: 1rem;
     width: 33%;
   }
+}
 
+.container-card {
   &-appear {
     opacity: 0;
     overflow: hidden;

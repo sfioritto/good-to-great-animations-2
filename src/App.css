@@ -77,14 +77,16 @@
     height: 1.5rem;
     margin-top: 1rem;
     width: 33%; }
-  .simple-card-appear {
-    opacity: 0;
-    overflow: hidden;
-    transform: translateY(30px);
-    transition: opacity 200ms ease-in, transform 200ms ease-in; }
-  .simple-card-appear-active {
-    opacity: 1;
-    transform: translateY(0); }
+
+.container-card-appear {
+  opacity: 0;
+  overflow: hidden;
+  transform: translateY(30px);
+  transition: opacity 200ms ease-in, transform 200ms ease-in; }
+
+.container-card-appear-active {
+  opacity: 1;
+  transform: translateY(0); }
 
 .expanded-card {
   border: 1px solid gainsboro;
