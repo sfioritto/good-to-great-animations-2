@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import './App.css';
 import {CSSTransition, TransitionGroup, Transition} from 'react-transition-group';
 import anime from 'animejs';
@@ -7,17 +8,61 @@ class TabbedContainer extends Component {
 
   constructor(props) {
     super(props);
+    this.tabsRef = React.createRef();
     this.state = {
       left: true,
-      right: false
+      right: false,
+      expanded: false,
+      originalScrollTop: 0
     };
 
     this.onSelectLeft = this.onSelectLeft.bind(this);
     this.onSelectRight = this.onSelectRight.bind(this);
   }
 
-  toggleExpand(element) {
-    console.log(element);
+  toggleExpand(cardElem, finalHeight) {
+    const containerElem = ReactDOM.findDOMNode(this);
+    const tabsHeight = this.tabsRef.current.offsetHeight;
+    const heightDiff = containerElem.offsetHeight - finalHeight;
+    const scrollTop = containerElem.scrollTop;
+
+    if (!this.state.expanded) {
+      anime({
+        targets: cardElem,
+        marginTop: [0, (heightDiff/2) + "px"],
+        marginBottom: [0, (heightDiff/2) + "px"],
+        duration: 800,
+        easing: 'easeInOutQuart',
+      });
+      anime({
+        targets: containerElem,
+        scrollTop: cardElem.offsetTop + tabsHeight,
+        duration: 800,
+        easing: 'easeInOutQuart'
+      });
+    } else {
+      anime({
+        targets: cardElem,
+        marginTop: 0,
+        marginBottom: "1rem",
+        duration: 800,
+        easing: 'easeInOutQuart',
+      });
+      anime({
+        targets: containerElem,
+        scrollTop: this.state.originalScrollTop,
+        duration: 800,
+        easing: 'easeInOutQuart',
+      });
+    }
+
+    this.setState(state => {
+      return {
+        expanded: !state.expanded,
+        originalScrollTop: scrollTop
+      };
+    });
+
   }
 
   onSelectLeft() {
@@ -45,8 +90,8 @@ class TabbedContainer extends Component {
     const GenericContainer = this.props.container;
 
     return (
-      <div className="tabbed-container">
-        <div className="tabs">
+      <div className={"tabbed-container" + (this.state.expanded ? " expanded" : "")}>
+        <div ref={this.tabsRef} className="tabs">
           <CSSTransition
             in={this.state.left}
             timeout={200}
@@ -100,7 +145,7 @@ class Loader extends Component {
     super(props);
     this.state = {
       progress: 0,
-      loaded: true
+      loaded: false
     };
 
     this.start = this.start.bind(this);
@@ -181,41 +226,34 @@ class Container extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      loadAnimationFinished: false
-    };
     this.delay = 50;
   }
 
   getTimeout() {
-    const {children, timeout} = this.props;
-    return (timeout || 200) + (this.delay * children.length - 1);
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState(state => {
-        return {loadAnimationFinished: true};
-      });
-    }, this.getTimeout());
   }
 
   render() {
-    const {children, ...animationProps} = this.props;
-    const timeout = this.getTimeout();
+    const {children, timeout} = this.props;
+    const totalTimeout = (timeout || 200) + (this.delay * children.length - 1);
+
     let totalDelay = 0;
 
     return (
       <TransitionGroup
-        className={"container" + (this.state.expanded ? " expanded" : "")}>
+        className="container">
         {React.Children.map(children, child => {
           const transition = (
             <CSSTransition
-              {...animationProps}
-              timeout={timeout}>
-              {React.cloneElement(child, {
-                style: this.state.loadAnimationFinished ? {} : {transitionDelay: totalDelay + "ms"},
-              })}
+              classNames="container-card"
+              timeout={totalTimeout}
+              appear>
+              <div
+                className="spacer"
+                style={{
+                  transitionDelay: totalDelay + "ms"
+                }}>
+                {child}
+              </div>
             </CSSTransition>
           );
           totalDelay += this.delay;
@@ -270,7 +308,7 @@ class ExpandedCard extends Component {
           targets: cardElem,
           height: [this.state.initialHeight, cardElem.scrollHeight + this.state.topHeight],
           duration: 800,
-          easing: 'easeInOutQuart',
+          easing: 'easeInOutQuart'
         });
         anime({
           targets: bottomElem,
@@ -309,7 +347,10 @@ class ExpandedCard extends Component {
 
   toggleExpand() {
     if (this.props.toggleExpand) {
-      this.props.toggleExpand(this.cardRef.current);
+      this.props.toggleExpand(
+        this.cardRef.current,
+        this.cardRef.current.scrollHeight + this.state.topHeight
+      );
     }
     this.setState(state => {
       return {
@@ -320,8 +361,7 @@ class ExpandedCard extends Component {
 
   render() {
     const style = {
-      height: this.state.initialHeight || "",
-      transitionDelay: this.props.style.transitionDelay
+      height: this.state.initialHeight || ""
     };
     return (
       <div

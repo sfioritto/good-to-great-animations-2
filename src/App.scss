@@ -8,7 +8,7 @@ $pink: rgb(234,75,252);
 $white: rgb(250, 250, 250);
 
 $example-width: 14rem;
-$example-height: 800px;
+$example-height: 500px;
 $transition-normal: 200ms;
 $transition-fast: 100ms;
 
@@ -94,6 +94,11 @@ $transition-fast: 100ms;
 
 .container {
   padding: 1rem;
+  position: relative;
+
+  .spacer {
+    padding-bottom: 1rem;
+  }
 }
 
 .simple-card {
@@ -101,7 +106,6 @@ $transition-fast: 100ms;
   border-radius: 5px;
   box-shadow: 0 0 4px $black;
   height: 9rem;
-  margin-bottom: 1rem;
   padding: 1rem;
 
   .title {
@@ -137,7 +141,6 @@ $transition-fast: 100ms;
 .expanded-card {
   border: 1px solid $grey;
   border-radius: 5px;
-  margin-bottom: 1rem;
   overflow: hidden;
 
   .top {
@@ -183,7 +186,13 @@ $transition-fast: 100ms;
 }
 
 .tabbed-container {
+  height: $example-height;
+  overflow-y: auto;
   overflow-x: hidden;
+
+  &.expanded {
+    overflow: hidden;
+  }
 
   .tabs {
     display: flex;
