@@ -17,11 +17,21 @@ class TabbedContainer extends Component {
   }
 
   onSelectLeft() {
-    this.setState({left: true, right: false});
+    this.setState(state => {
+      return {
+        left: true,
+        right: false
+      };
+    });
   }
 
   onSelectRight() {
-    this.setState({left: false, right: true});
+    this.setState(state => {
+      return {
+        left: false,
+        right: true
+      };
+    });
   }
 
   render() {
@@ -90,7 +100,9 @@ class Loader extends Component {
       }));
       setTimeout(this.start, 10);
     } else {
-      this.setState({loaded: true});
+      this.setState(state => {
+        return {loaded: true};
+      });
     }
   }
 
@@ -164,7 +176,9 @@ class Container extends Component {
   }
 
   toggleExpand(element) {
-    this.setState({expanded: !this.state.expanded});
+    this.setState(state => {
+      return {expanded: !state.expanded};
+    });
   }
 
   getTimeout() {
@@ -174,7 +188,9 @@ class Container extends Component {
 
   componentDidMount() {
     setTimeout(() => {
-      this.setState({loadAnimationFinished: true});
+      this.setState(state => {
+        return {loadAnimationFinished: true};
+      });
     }, this.getTimeout());
   }
 
@@ -230,15 +246,16 @@ class ExpandedCard extends Component {
   }
 
   componentDidMount() {
-    this.setState({
-      initialHeight: this.cardRef.current.offsetHeight,
-      topHeight: this.topRef.current.offsetHeight,
-      mounted: true
+    this.setState(state => {
+      return {
+        initialHeight: this.cardRef.current.offsetHeight,
+        topHeight: this.topRef.current.offsetHeight,
+        mounted: true
+      };
     });
   }
 
   componentDidUpdate(prevProps, prevState) {
-
     const cardElem = this.cardRef.current;
     const bottomElem = this.bottomRef.current;
     const topElem = this.topRef.current;
@@ -288,8 +305,10 @@ class ExpandedCard extends Component {
 
   toggleExpand() {
     this.props.toggleExpand(this.cardRef.current);
-    this.setState({
-      expanded: !this.state.expanded
+    this.setState(state => {
+      return {
+        expanded: !state.expanded
+      };
     });
   }
 
@@ -300,7 +319,7 @@ class ExpandedCard extends Component {
     };
     return (
       <div
-        className={"expanded-card" + (this.state.mounted ? " mounted" : "")}
+        className={"expanded-card"}
         ref={this.cardRef}
         style={style}>
         <div
@@ -313,7 +332,7 @@ class ExpandedCard extends Component {
           <div className="title"></div>
           <div className = "sub-title"></div>
         </div>
-        <div className="bottom" ref={this.bottomRef}>
+        <div className={"bottom" + (this.state.mounted ? " mounted" : "")} ref={this.bottomRef}>
           <p></p>
           <p></p>
           <p></p>

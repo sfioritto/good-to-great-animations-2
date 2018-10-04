@@ -175,10 +175,8 @@ $transition-fast: 100ms;
       border-radius: 10px;
       height: 1rem;
     }
-  }
 
-  &.mounted {
-    .bottom {
+    &.mounted {
       display: block;
     }
   }
