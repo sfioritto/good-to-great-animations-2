@@ -160,21 +160,28 @@ class Container extends Component {
       expanded: false,
       loadAnimationFinished: false
     };
+    this.delay = 50;
   }
 
   toggleExpand(element) {
     this.setState({expanded: !this.state.expanded});
   }
 
-  render() {
-    const {items, ...animationProps} = this.props;
-    const delay = 50;
-    const timeout = (animationProps.timeout || 200) + (delay * items.length - 1);
-    let totalDelay = 0;
+  getTimeout() {
+    const {items, timeout} = this.props;
+    return (timeout || 200) + (this.delay * items.length - 1);
+  }
 
+  componentDidMount() {
     setTimeout(() => {
       this.setState({loadAnimationFinished: true});
-    }, timeout);
+    }, this.getTimeout());
+  }
+
+  render() {
+    const {items, ...animationProps} = this.props;
+    const timeout = this.getTimeout();
+    let totalDelay = 0;
 
     return (
       <TransitionGroup
@@ -191,7 +198,7 @@ class Container extends Component {
               })}
             </CSSTransition>
           );
-          totalDelay += delay;
+          totalDelay += this.delay;
           return transition;
         })}
       </TransitionGroup>
