@@ -82,7 +82,6 @@
 
 .container-card-appear {
   opacity: 0;
-  overflow: hidden;
   transform: translateY(30px);
   transition: opacity 200ms ease-in, transform 200ms ease-in; }
 

@@ -127,7 +127,6 @@ $transition-fast: 100ms;
 .container-card {
   &-appear {
     opacity: 0;
-    overflow: hidden;
     transform: translateY(30px);
     transition: opacity $transition-normal ease-in, transform $transition-normal ease-in,
   }
