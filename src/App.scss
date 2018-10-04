@@ -183,6 +183,7 @@ $transition-fast: 100ms;
 }
 
 .tabbed-container {
+  overflow-x: hidden;
 
   .tabs {
     display: flex;
