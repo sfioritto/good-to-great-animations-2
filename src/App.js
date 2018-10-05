@@ -145,7 +145,8 @@ class Loader extends Component {
     super(props);
     this.state = {
       progress: 0,
-      loaded: false
+      loaded: false,
+      data: null
     };
 
     this.start = this.start.bind(this);
@@ -159,7 +160,12 @@ class Loader extends Component {
       setTimeout(this.start, 10);
     } else {
       this.setState(state => {
-        return {loaded: true};
+        return {
+          loaded: true,
+          data: {
+            keys: [1, 2, 3, 4, 5, 6]
+          }
+        };
       });
     }
   }
@@ -174,7 +180,7 @@ class Loader extends Component {
               state === "entered") {
             return (
               <div className={"loader unloaded" + (state === 'exiting' ? " loader-exit-active" : "")}>
-                {this.props.button(
+                {this.props.children(
                   this.state.progress,
                   this.start
                 )}
@@ -182,7 +188,11 @@ class Loader extends Component {
             );
 
           } else {
-            return this.props.loaded();
+            return this.props.children(
+              this.state.progress,
+              this.start,
+              this.state.data
+            );
           }
         }}
 
@@ -394,34 +404,35 @@ class App extends Component {
   render() {
     return (
       <div className="app-frame">
-        <Loader
-          button={(progress, onClick) => {
-            return (
-              <ProgressBarButton
-                value="Load the App!"
-                progress={progress}
-                onClick={onClick}
-                />
-            );
+        <Loader>
+          {(progress, onClick, data) => {
+            if (data) {
+              const simpleCards = [1, 2, 3, 4, 5, 6].map(key=>{
+                return <SimpleCard key={key}/>;
+              });
+
+              const expandedCards = [1, 2, 3, 4, 5, 6].map(key=>{
+                return <ExpandedCard key={key} />;
+              });
+
+              return (
+                <TabbedContainer
+                  left={expandedCards}
+                  right={simpleCards}
+                  container={Container}
+                  />
+              );
+            } else {
+              return (
+                <ProgressBarButton
+                  value="Load the App!"
+                  progress={progress}
+                  onClick={onClick}
+                  />
+              );
+            }
           }}
-        loaded={(data) => {
-
-          const simpleCards = [1, 2, 3, 4, 5, 6].map(key=>{
-            return <SimpleCard key={key}/>;
-          });
-
-          const expandedCards = [1, 2, 3, 4, 5, 6].map(key=>{
-            return <ExpandedCard key={key} />;
-          });
-
-          return (
-            <TabbedContainer
-              left={expandedCards}
-              right={simpleCards}
-              container={Container}
-              />
-          );
-        }}/>
+        </Loader>
       </div>
     );
   }
